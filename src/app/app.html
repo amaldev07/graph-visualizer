@@ -1,0 +1,63 @@
+<main class="app-shell">
+  <section class="workspace">
+    <aside class="control-panel" aria-label="Graph input controls">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Adjacency List</p>
+          <h1>Graph Visualizer</h1>
+        </div>
+        <div class="mode-switch" aria-label="Graph type">
+          <button
+            type="button"
+            [class.active]="graphMode() === 'directed'"
+            (click)="setMode('directed')"
+          >
+            Directed
+          </button>
+          <button
+            type="button"
+            [class.active]="graphMode() === 'undirected'"
+            (click)="setMode('undirected')"
+          >
+            Undirected
+          </button>
+        </div>
+      </div>
+
+      <label class="input-label" for="adjacency-input">Input</label>
+      <textarea
+        id="adjacency-input"
+        spellcheck="false"
+        [ngModel]="adjacencyList()"
+        (ngModelChange)="adjacencyList.set($event); renderGraph()"
+      ></textarea>
+
+      @if (parseError()) {
+        <p class="error-message">{{ parseError() }}</p>
+      }
+
+      <div class="actions">
+        <button type="button" class="primary-action" (click)="renderGraph()">Render Graph</button>
+        <button type="button" class="secondary-action" (click)="fitGraph()">Fit View</button>
+      </div>
+
+      <div class="format-panel">
+        <p class="format-title">Accepted formats</p>
+        <code>A: B C</code>
+        <code>A -> B, C</code>
+        <code>A B C</code>
+        <code>F:</code>
+      </div>
+    </aside>
+
+    <section class="graph-panel" aria-label="Rendered graph">
+      <header class="graph-header">
+        <div>
+          <p class="eyebrow">{{ modeLabel() }}</p>
+          <h2>{{ nodeCount() }} nodes, {{ edgeCount() }} edges</h2>
+        </div>
+      </header>
+      <div #graphCanvas class="graph-canvas"></div>
+    </section>
+  </section>
+</main>

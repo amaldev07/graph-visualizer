@@ -1,0 +1,242 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #172033;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(20, 184, 166, 0.12), transparent 32%),
+    linear-gradient(315deg, rgba(249, 115, 22, 0.1), transparent 28%),
+    #f6f8fb;
+  padding: 24px;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+  gap: 18px;
+  height: calc(100vh - 48px);
+  min-height: 620px;
+}
+
+.control-panel,
+.graph-panel {
+  border: 1px solid #dbe3ef;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08);
+}
+
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+  border-radius: 8px;
+}
+
+.panel-header,
+.graph-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1,
+h2 {
+  margin: 0;
+  color: #0f172a;
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 184px;
+  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #eef2f7;
+}
+
+.mode-switch button {
+  min-height: 38px;
+  border: 0;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.mode-switch button.active {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.input-label,
+.format-title {
+  margin: 0;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+textarea {
+  min-height: 300px;
+  flex: 1;
+  resize: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  padding: 14px;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+textarea:focus {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.16);
+}
+
+.error-message {
+  margin: 0;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fff1f2;
+  color: #b91c1c;
+  padding: 10px 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.primary-action,
+.secondary-action {
+  min-height: 42px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.primary-action {
+  border: 1px solid #0f766e;
+  background: #0f766e;
+  color: white;
+}
+
+.secondary-action {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #1e293b;
+}
+
+.format-panel {
+  display: grid;
+  gap: 8px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 16px;
+}
+
+.format-panel code {
+  display: block;
+  border-radius: 6px;
+  background: #eef2f7;
+  color: #334155;
+  padding: 7px 9px;
+  font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+  font-size: 0.84rem;
+}
+
+.graph-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.graph-header {
+  border-bottom: 1px solid #dbe3ef;
+  padding: 20px 22px;
+  background: #ffffff;
+}
+
+.graph-canvas {
+  min-height: 0;
+  background:
+    linear-gradient(#e8edf5 1px, transparent 1px),
+    linear-gradient(90deg, #e8edf5 1px, transparent 1px),
+    #f8fafc;
+  background-size: 28px 28px;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    padding: 14px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: auto;
+  }
+
+  .control-panel {
+    min-height: 540px;
+  }
+
+  .graph-panel {
+    min-height: 560px;
+  }
+}
+
+@media (max-width: 560px) {
+  .panel-header,
+  .graph-header {
+    flex-direction: column;
+  }
+
+  .mode-switch,
+  .actions {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.55rem;
+  }
+}
