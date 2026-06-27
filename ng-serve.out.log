@@ -157,3 +157,10 @@ Application bundle generation complete. [0.509 seconds] - 2026-06-27T07:14:56.33
 
 Page reload sent to client(s).
 [33m>[39m Changes detected. Rebuilding...
+[32m√[39m Changes detected. Rebuilding...
+[1mInitial chunk files[22m[2m | [22m[1mNames[22m[2m | [22m[1mRaw size[22m
+[32mmain.js[39m            [2m | [22m[2mmain[22m [2m | [22m[36m28.59 kB[39m[2m | [22m
+
+Application bundle generation complete. [0.461 seconds] - 2026-06-27T07:16:49.450Z
+
+Page reload sent to client(s).
