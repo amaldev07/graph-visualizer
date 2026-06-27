@@ -2,7 +2,7 @@
 
 A simple Angular app to render graphs from adjacency-list input.
 
-Live page: https://amaldev07.github.io/graph-visualizer/
+Live page: <a href="https://amaldev07.github.io/graph-visualizer/" target="_blank">Graph Visualizer</a>
 
 ## Features
 
