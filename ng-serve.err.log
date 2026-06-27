@@ -12,3 +12,30 @@
           ╵                          [32m~~~~~~~~[0m
 
 [39m[22m
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDuplicate key "color" in object literal[0m [duplicate-object-key]
+
+    src/app/app.ts:93:24:
+[37m      93 │                         [32mcolor[37m: '#ffffff',
+         ╵                         [32m~~~~~[0m
+
+  The original key "color" is here:
+
+    src/app/app.ts:84:24:
+[37m      84 │                         [32mcolor[37m: '#0f172a',
+         ╵                         [32m~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS1117: An object literal cannot have multiple properties with the same name.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.ts:112:12:
+[37m      112 │             [32mcolor[37m: '#ffffff',
+          ╵             [32m~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2322: Type 'number' is not assignable to type 'PropertyValue<NodeSingular, string> | undefined'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.ts:112:12:
+[37m      112 │             [32m'text-max-width'[37m: 42,
+          ╵             [32m~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
