@@ -32,7 +32,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
 
-    app.adjacencyList.set('[[1,2],[1,3]]');
+    app.adjacencyList.set('[[1,2],[1,3],[2,3]]');
     app.graphMode.set('directed');
     fixture.detectChanges();
 
