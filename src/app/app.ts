@@ -146,6 +146,11 @@ G: A`);
     value: string,
     mode: GraphMode,
   ): { elements: ElementDefinition[]; nodeCount: number; edgeCount: number; error: string } {
+    const trimmedValue = value.trim();
+    if (trimmedValue.startsWith('[')) {
+      return this.parseLeetCodeAdjacencyList(trimmedValue, mode);
+    }
+
     const nodes = new Set<string>();
     const edgeKeys = new Set<string>();
     const edges: ElementDefinition[] = [];
@@ -222,7 +227,172 @@ G: A`);
     return { source, targets };
   }
 
+  private parseLeetCodeAdjacencyList(
+    value: string,
+    mode: GraphMode,
+  ): { elements: ElementDefinition[]; nodeCount: number; edgeCount: number; error: string } {
+    let input: unknown;
+
+    try {
+      input = JSON.parse(value);
+    } catch {
+      return {
+        elements: [],
+        nodeCount: 0,
+        edgeCount: 0,
+        error: 'LeetCode format must be a valid array, for example [[2,4],[1,3],[2,4],[1,3]].',
+      };
+    }
+
+    if (!Array.isArray(input)) {
+      return {
+        elements: [],
+        nodeCount: 0,
+        edgeCount: 0,
+        error: 'LeetCode format must be an outer array of neighbor arrays.',
+      };
+    }
+
+    const invalidEntryIndex = input.findIndex((neighbors) => !Array.isArray(neighbors));
+    if (invalidEntryIndex >= 0) {
+      return {
+        elements: [],
+        nodeCount: 0,
+        edgeCount: 0,
+        error: `LeetCode entry ${invalidEntryIndex + 1} must be an array of neighbors.`,
+      };
+    }
+
+    const entries = input as unknown[][];
+    if (entries.every((entry) => entry.length === 2)) {
+      return this.parseLeetCodeEdgeList(entries, mode);
+    }
+
+    const nodes = new Set<string>();
+    const edgeKeys = new Set<string>();
+    const edges: ElementDefinition[] = [];
+
+    entries.forEach((neighbors, index) => {
+      const source = String(index + 1);
+      nodes.add(source);
+
+      neighbors.forEach((neighbor) => {
+        const target = this.cleanLeetCodeNodeName(neighbor);
+        if (!target || target === source) {
+          return;
+        }
+
+        nodes.add(target);
+        const key =
+          mode === 'undirected'
+            ? [source, target].sort((a, b) => Number(a) - Number(b)).join('--')
+            : `${source}->${target}`;
+
+        if (edgeKeys.has(key)) {
+          return;
+        }
+
+        edgeKeys.add(key);
+        edges.push({
+          data: {
+            id: `edge-${edgeKeys.size}`,
+            source,
+            target,
+            directed: String(mode === 'directed'),
+          },
+        });
+      });
+    });
+
+    const elements: ElementDefinition[] = [...nodes]
+      .sort((a, b) => Number(a) - Number(b))
+      .map((node) => ({ data: { id: node, label: node } }));
+
+    elements.push(...edges);
+
+    return {
+      elements,
+      nodeCount: nodes.size,
+      edgeCount: edges.length,
+      error: nodes.size ? '' : 'Enter at least one adjacency-list entry.',
+    };
+  }
+
+  private parseLeetCodeEdgeList(
+    entries: unknown[][],
+    mode: GraphMode,
+  ): { elements: ElementDefinition[]; nodeCount: number; edgeCount: number; error: string } {
+    const nodes = new Set<string>();
+    const edgeKeys = new Set<string>();
+    const edges: ElementDefinition[] = [];
+
+    for (const [index, entry] of entries.entries()) {
+      const source = this.cleanLeetCodeNodeName(entry[0]);
+      const target = this.cleanLeetCodeNodeName(entry[1]);
+
+      if (!source || !target) {
+        return {
+          elements: [],
+          nodeCount: 0,
+          edgeCount: 0,
+          error: `LeetCode edge ${index + 1} must contain two positive node values.`,
+        };
+      }
+
+      nodes.add(source);
+      nodes.add(target);
+
+      if (source === target) {
+        continue;
+      }
+
+      const key =
+        mode === 'undirected'
+          ? [source, target].sort((a, b) => Number(a) - Number(b)).join('--')
+          : `${source}->${target}`;
+
+      if (edgeKeys.has(key)) {
+        continue;
+      }
+
+      edgeKeys.add(key);
+      edges.push({
+        data: {
+          id: `edge-${edgeKeys.size}`,
+          source,
+          target,
+          directed: String(mode === 'directed'),
+        },
+      });
+    }
+
+    const elements: ElementDefinition[] = [...nodes]
+      .sort((a, b) => Number(a) - Number(b))
+      .map((node) => ({ data: { id: node, label: node } }));
+
+    elements.push(...edges);
+
+    return {
+      elements,
+      nodeCount: nodes.size,
+      edgeCount: edges.length,
+      error: nodes.size ? '' : 'Enter at least one LeetCode edge.',
+    };
+  }
+
   private cleanNodeName(value: string): string {
     return value.trim().replace(/^["']|["']$/g, '');
+  }
+
+  private cleanLeetCodeNodeName(value: unknown): string {
+    if (typeof value === 'number' && Number.isInteger(value) && value > 0) {
+      return String(value);
+    }
+
+    if (typeof value === 'string') {
+      return this.cleanNodeName(value);
+    }
+
+    return '';
   }
 }

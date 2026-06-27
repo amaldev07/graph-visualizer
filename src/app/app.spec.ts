@@ -27,4 +27,16 @@ describe('App', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h2')?.textContent).toContain('7 nodes, 9 edges');
   });
+
+  it('should accept LeetCode-style edge list arrays', () => {
+    const fixture = TestBed.createComponent(App);
+    const app = fixture.componentInstance;
+
+    app.adjacencyList.set('[[1,2],[1,3]]');
+    app.graphMode.set('directed');
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h2')?.textContent).toContain('3 nodes, 2 edges');
+  });
 });
